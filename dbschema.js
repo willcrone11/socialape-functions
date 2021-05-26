@@ -1,4 +1,16 @@
 let db = {
+  users: [
+    {
+      userId: 'dh23ggj5h32g543j5gf43',
+      email: 'user@email.com',
+      handle: 'user',
+      createdAt: '2019-05-15T10:59:52.7982',
+      imageUrl: 'image/dsfsdkfghskdfgs/dgfdhfgdh',
+      bio: 'Hello, my name is user',
+      website: 'https://user.com',
+      location: 'Cleveland, OH'
+    }
+  ],
   screams: [
     {
       userHandle: 'user',
@@ -8,4 +20,4 @@ let db = {
       commentCount: 2
     }
   ]
-}
+};
