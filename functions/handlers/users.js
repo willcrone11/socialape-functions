@@ -57,8 +57,8 @@ exports.signup = (req, res) => {
       } else {
         return res.status(500).json({ error: err.code });
       }
-    })
-}
+    });
+};
 
 //login route
 exports.login = (req, res) => {
@@ -86,7 +86,7 @@ exports.login = (req, res) => {
           .json({ general: 'Wrong credentials - please try again'});
       } else return res.status(500).json({ error: err.code });
     });
-}
+};
 
 //Add user details
 exports.addUserDetails = (req, res) => {
@@ -100,7 +100,30 @@ exports.addUserDetails = (req, res) => {
       console.error(err);
       return res.status(500).json({ error: err.code });
     })
-}
+};
+
+//Get own user details
+exports.getAuthenticatedUser = (req, res) => {
+  let userData = {};
+  db.doc(`/users/${req.user.handle}`).get()
+    .then(doc => {
+      if(doc.exists){
+        userData.credentials = doc.data();
+        return db.collection('likes').where('userHandle', '==', req.user.handle).get()
+      }
+    })
+    .then(data => {
+      userData.likes = [];
+      data.forEach(doc => {
+        userData.likes.push(doc.data());
+      })
+      return res.json(userData);
+    })
+    .catch(er => {
+      console.error(err);
+      return res.status(500).json({ error: err.code });
+    })
+};
 
 //Allows image profile image upload
 exports.uploadImage = (req, res) => {
