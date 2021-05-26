@@ -99,7 +99,7 @@ exports.addUserDetails = (req, res) => {
     .catch(err => {
       console.error(err);
       return res.status(500).json({ error: err.code });
-    })
+    });
 };
 
 //Get own user details
@@ -122,7 +122,7 @@ exports.getAuthenticatedUser = (req, res) => {
     .catch(er => {
       console.error(err);
       return res.status(500).json({ error: err.code });
-    })
+    });
 };
 
 //Allows image profile image upload

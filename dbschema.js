@@ -18,8 +18,16 @@ let db = {
       createdAt: '2021-05-15T11:46:01.0182',
       likeCount: 5,
       commentCount: 2
-    }
+    },
   ],
+  comments: [
+    {
+      userHandle: 'user',
+      screamId: 'kdjsfgksuufhgkdsufky',
+      body: 'Nice scream bro!',
+      createdAt: '2021-03-15T10:59:52.7982'
+    }
+  ]
 };
 
 const userDetails = {
