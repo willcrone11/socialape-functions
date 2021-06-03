@@ -5,7 +5,7 @@ exports.getAllScreams = (req, res) => {
     .collection('screams')
     .orderBy('createdAt', 'desc')
     .get()
-    .then(data => {
+    .then((data) => {
       let screams = [];
       data.forEach(doc => {
         screams.push({
@@ -17,7 +17,7 @@ exports.getAllScreams = (req, res) => {
       });
       return res.json(screams);
     })
-    .catch(err => console.error(err));
+    .catch((err) => console.error(err));
 };
 
 exports.postOneScream = (req, res) => {
@@ -37,12 +37,12 @@ exports.postOneScream = (req, res) => {
   db
     .collection('screams')
     .add(newScream)
-    .then(doc => {
+    .then((doc) => {
       const resScream = newScream;
       resScream.screamId = doc.id;
       res.json(resScream);
     })
-    .catch(err => {
+    .catch((err) => {
       res.status(500).json({ error: `something went wrong`});
       console.error(err);
     });
@@ -53,7 +53,7 @@ exports.getScream = (req, res) => {
   let screamData = {};
   db.doc(`/screams/${req.params.screamId}`)
     .get()
-    .then(doc => {
+    .then((doc) => {
       if(!doc.exists){
         return res.status(404).json({ error: 'Scream not found'})
       }
@@ -65,14 +65,14 @@ exports.getScream = (req, res) => {
         .where('screamId', '==', req.params.screamId)
         .get();
     })
-    .then(data => {
+    .then((data) => {
       screamData.comments = [];
       data.forEach(doc => {
         screamData.comments.push(doc.data())
       });
       return res.json(screamData);
     })
-    .catch(err => {
+    .catch((err) => {
       console.error(err);
       res.status(500).json({ error: err.code });
     });
@@ -92,7 +92,7 @@ exports.commentOnScream = (req, res) => {
 
   db.doc(`/screams/${req.params.screamId}`)
     .get()
-    .then(doc => {
+    .then((doc) => {
       if(!doc.exists){
       return res.status(404).json({ error: 'Scream not found'});
       }
@@ -104,7 +104,7 @@ exports.commentOnScream = (req, res) => {
     .then(() => {
       res.json(newComment);
     })
-    .catch(err => {
+    .catch((err) => {
       console.log(err);
       res.status(500).json({ error: 'Something went wrong' });
     });
@@ -122,7 +122,7 @@ exports.likeScream = (req, res) => {
   let screamData;
 
   screamDocument.get()
-    .then(doc => {
+    .then((doc) => {
       if (doc.exists) {
         screamData = doc.data();
         screamData.screamId = doc.id;
@@ -131,7 +131,7 @@ exports.likeScream = (req, res) => {
         return res.status(404).json({ error: 'Scream not found'});
       }
     })
-    .then(data => {
+    .then((data) => {
       if (data.empty) {
         return db.collection('likes').add({
           screamId: req.params.screamId,
@@ -148,7 +148,7 @@ exports.likeScream = (req, res) => {
         return res.status(400).json({ error: 'Scream already liked'});
       }
     })
-    .catch(err => {
+    .catch((err) => {
       console.error(err)
       res.status(500).json({ error: err.code });
     });
@@ -165,7 +165,7 @@ exports.unlikeScream = (req, res) => {
   let screamData;
 
   screamDocument.get()
-    .then(doc => {
+    .then((doc) => {
       if (doc.exists) {
         screamData = doc.data();
         screamData.screamId = doc.id;
@@ -174,7 +174,7 @@ exports.unlikeScream = (req, res) => {
         return res.status(404).json({ error: 'Scream not found'});
       }
     })
-    .then(data => {
+    .then((data) => {
       if (data.empty) {
         return res.status(400).json({ error: 'Scream not liked'});
       } else {
@@ -190,7 +190,7 @@ exports.unlikeScream = (req, res) => {
           })
       }
     })
-    .catch(err => {
+    .catch((err) => {
       console.error(err)
       res.status(500).json({ error: err.code });
     });
@@ -201,7 +201,7 @@ exports.deleteScream = (req, res) => {
   const document = db.doc(`/screams/${req.params.screamId}`);
   document
     .get()
-    .then(doc => {
+    .then((doc) => {
       if (!doc.exists) {
         return res.status(404).json({ error: 'Scream not found'});
       }
@@ -214,7 +214,7 @@ exports.deleteScream = (req, res) => {
     .then(() => {
       res.json({ message: 'Scream deleted successfully'});
     })
-    .catch(err => {
+    .catch((err) => {
       console.error(err);
       return res.status(500).json({ error: err.code });
     });
