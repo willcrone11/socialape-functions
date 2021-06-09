@@ -120,7 +120,7 @@ exports.getUserDetails = (req, res) => {
       }
     })
     .then((data) => {
-      userData.screams = {};
+      userData.screams = [];
       data.forEach((doc) => {
         userData.screams.push({
           body: doc.data().body,
